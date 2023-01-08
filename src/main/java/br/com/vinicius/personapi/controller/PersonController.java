@@ -2,11 +2,10 @@ package br.com.vinicius.personapi.controller;
 
 import br.com.vinicius.personapi.dto.request.PersonDTO;
 import br.com.vinicius.personapi.dto.response.MessageResponseDTO;
-import br.com.vinicius.personapi.entity.Person;
 import br.com.vinicius.personapi.exception.PersonNotFoundException;
 import br.com.vinicius.personapi.service.PersonService;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,14 +21,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/people")
+@RequiredArgsConstructor
 public class PersonController {
 
-    private PersonService personService;
-
-    @Autowired
-    public PersonController(PersonService personService) {
-        this.personService = personService;
-    }
+    private final PersonService personService;
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -57,6 +52,4 @@ public class PersonController {
     public MessageResponseDTO updateById(@PathVariable Long id, @RequestBody @Valid PersonDTO personDTO) throws PersonNotFoundException {
         return personService.updateById(id, personDTO);
     }
-
-
 }
