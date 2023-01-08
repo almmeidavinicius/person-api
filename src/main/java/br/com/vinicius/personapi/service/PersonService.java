@@ -8,6 +8,8 @@ import br.com.vinicius.personapi.repository.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class PersonService {
 
@@ -26,4 +28,12 @@ public class PersonService {
         Person createdPerson = personRepository.save(personToSave);
         return MessageResponseDTO.builder().response("Created personDTO with id = " + createdPerson.getId()).build();
     }
+
+    public List<PersonDTO> listAll(){
+        List<Person> all = personRepository.findAll();
+        return all.stream()
+                .map(personMapper::toDTO)
+                .toList();
+    }
+
 }
